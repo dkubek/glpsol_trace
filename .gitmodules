@@ -1,0 +1,9 @@
+[submodule "libs/glpk-simplex-trace"]
+	path = libs/glpk-simplex-trace
+	url = git@github.com:dkubek/glpk-simplex-trace.git
+[submodule "libs/mcf-graph-interface"]
+	path = libs/mcf-graph-interface
+	url = https://github.com/dkubek/mcf-graph-interface
+[submodule "libs/cxxopts"]
+	path = libs/cxxopts
+	url = git@github.com:jarro2783/cxxopts.git
