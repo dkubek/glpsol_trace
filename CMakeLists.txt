@@ -38,3 +38,5 @@ target_include_directories(mcfglpk PUBLIC cxxopts)
 target_link_libraries(mcfglpk PUBLIC cxxopts)
 
 target_link_libraries(convert PRIVATE Graph)
+
+install(TARGETS mcfglpk convert RUNTIME DESTINATION bin)
