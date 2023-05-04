@@ -23,8 +23,8 @@ To build this project, you need to have the following dependencies installed:
 
 1. Clone the repository with all of its submodules:
 ```
-git clone --recursive https://github.com/yourusername/glpsol-trace.git
-cd glpsol-trace
+git clone --recursive https://github.com/dkubek/glpsol_trace.git
+cd glpsol_trace
 ```
 
 2. Configure the build
