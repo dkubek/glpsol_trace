@@ -5,7 +5,7 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 
 # Setup the project
-project(mcfglpk
+project(glpsol_trace
     VERSION 0.1
     DESCRIPTION "Solve MCF problems using GLPK"
     LANGUAGES CXX)
@@ -13,30 +13,33 @@ project(mcfglpk
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options("$<$<CONFIG:RELEASE>:-W;-Wall;-O3;-pedantic>")
+
 # Add external libraries
 add_subdirectory(libs/mcf-graph-interface/)
 
 # Add custom GLPK library
-set(GLPK_WITH_GMP ON)
 add_subdirectory(libs/glpk-simplex-trace/)
 
-# Add cxxopts
+# Add helper libraries
 add_subdirectory(libs/cxxopts)
+add_subdirectory(libs/json)
 
 # $source_files is a space-delimited list of filenames.
-add_executable(mcfglpk src/mcfglpk.cpp)
-add_executable(convert src/convert.cpp)
+add_executable(glpsol_trace src/glpsol_trace.cpp)
+add_executable(convert_problem src/convert_problem.cpp)
 
-target_compile_features(mcfglpk PUBLIC cxx_std_17)
+target_compile_features(glpsol_trace PUBLIC cxx_std_17)
 
 # IMPORTANT: Make sure to link library to executable *after* it has been added
-target_link_libraries(mcfglpk PRIVATE Graph)
-target_link_libraries(mcfglpk PRIVATE gmp)
-target_link_libraries(mcfglpk PRIVATE gmpxx)
-target_link_libraries(mcfglpk PRIVATE glpk-debug)
-target_include_directories(mcfglpk PUBLIC cxxopts)
-target_link_libraries(mcfglpk PUBLIC cxxopts)
+target_link_libraries(glpsol_trace PRIVATE Graph)
+target_link_libraries(glpsol_trace PRIVATE gmp)
+target_link_libraries(glpsol_trace PRIVATE gmpxx)
+target_link_libraries(glpsol_trace PRIVATE glpk-simplex-trace)
+target_link_libraries(glpsol_trace PRIVATE cxxopts)
+target_include_directories(glpsol_trace PRIVATE cxxopts)
 
-target_link_libraries(convert PRIVATE Graph)
+target_link_libraries(convert_problem PRIVATE Graph)
+target_link_libraries(convert_problem PRIVATE nlohmann_json)
 
-install(TARGETS mcfglpk convert RUNTIME DESTINATION bin)
+install(TARGETS glpsol_trace convert_problem RUNTIME DESTINATION bin)

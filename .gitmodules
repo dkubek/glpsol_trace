@@ -7,3 +7,6 @@
 [submodule "libs/cxxopts"]
 	path = libs/cxxopts
 	url = git@github.com:jarro2783/cxxopts.git
+[submodule "libs/json"]
+	path = libs/json
+	url = https://github.com/nlohmann/json
