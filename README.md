@@ -1,7 +1,10 @@
 # glpsol_trace
 
 This little C++ project demonstrates how to use the
-[dkubek/glpk-simplex-trace][glpk-simplex-trace] library. The project contains two tools. The ``
+[dkubek/glpk-simplex-trace][glpk-simplex-trace] library. The project contains
+two tools. The ``glpsol_trace`` tool used for solving problems in exact
+arithmetic with tracing and ``convert_problem`` used to convert MMCF problem
+instances.
 
 [glpk-simplex-trace]: https://github.com/dkubek/glpk-simplex-trace
 
@@ -14,6 +17,7 @@ To build this project, you need to have the following dependencies installed:
 - Git
 - CMake (version at least 3.11)
 - A C++ compiler (such as g++)
+- The GNU MP library
 
 ### Building the Project
 
@@ -87,3 +91,45 @@ One additional option used for internal purposes is:
   ``-c, --check-cost``       Enable checking unified cost. This checks whether every arc has the same cost for all commodities.
 
 [graph]: http://groups.di.unipi.it/optimize/Software/Graph.html
+
+## Example
+
+In the ``test/`` directory we have provided the archive ``sample.tar.gz`` containing a sample of small MMCF problems from the [MMCF Dataset][mmcf].
+
+Firstly, unpack the archive
+```sh
+tar -zxvf sample.tar.gz
+```
+this creates the ``sample/`` directory and populates it with the problems. Change into it.
+```
+cd sample/
+```
+
+We
+have also provided a small script ``process`` for converting the
+instances into the MPS format read by ``glpsol_trace``. 
+
+
+If the ``convert_problem`` executable is available in ``PATH`` run
+```sh
+./process all
+```
+otherwise, run the script as with the ``CONVERT_SCRIPT`` variable set
+```sh
+CONVERT_SCRIPT=/path/to/convert_problem ./process all
+```
+This creates a MPS file for each problem.
+
+
+To for example solve the ``mnetgen/64-4-1.mps`` problem  using the dantzig rule
+run:
+```sh
+glpsol_trace mnetgen/64-4-1.mps \
+  --mps \
+  --pivot dantzig \
+  --info-file info \
+  --status-file status \
+  --var-file var
+```
+
+[mmcf]: http://groups.di.unipi.it/optimize/Data/MMCF.html#vnc
